@@ -1,77 +1,52 @@
-var helicopterIMG, helicopterSprite, packageSprite,packageIMG;
-var packageBody,ground
 const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Body = Matter.Body;
-var  box2,box2,box3
+
+var paper;
+var trash1;
+var world;
+var ground;
 
 function preload()
 {
-	helicopterIMG=loadImage("helicopter.png")
-	packageIMG=loadImage("package.png")
+	
 }
 
 function setup() {
-	createCanvas(800, 700);
-	rectMode(CENTER);
-	
-
-	packageSprite=createSprite(width/2, 80, 10,10);
-	packageSprite.addImage(packageIMG)
-	packageSprite.scale=0.2
-
-	helicopterSprite=createSprite(width/2, 200, 10,10);
-	helicopterSprite.addImage(helicopterIMG)
-	helicopterSprite.scale=0.6
-
-	groundSprite=createSprite(width/2, height-35, width,10);
-	groundSprite.shapeColor=color(255)
+	createCanvas(1300, 650);
 
 
 	engine = Engine.create();
 	world = engine.world;
 
-	packageBody = Bodies.circle(width/2 , 200 , 5 , {restitution:0.5, isStatic:true});
-	World.add(world, packageBody);
-	
+	paper = new Paper(200,450,70);
+	ground = new Ground(width/2,620,width,20);
+	dustbin1 = new Dustbin(1200,510,20,200);
+	dustbin2 = new Dustbin(1000,510,20,200);
+	dustbin3  =new Dustbin(1100,600,219,20);
 
-	//Create a Ground
-	ground = Bodies.rectangle(400,630,250,15 , {isStatic:true} );
- 	World.add(world, ground);
 
 
 	Engine.run(engine);
-
-
-	box1=createSprite(400,650,200,20);
-	box1.shapeColor=color(255,0,0)
-
-	box2=createSprite(500,610,20,100);
-	box2.shapeColor=color(255,0,0)
-
-	box3=createSprite(300,610,20,100);
-	box3.shapeColor=color(255,0,0)
   
 }
 
 
 function draw() {
   rectMode(CENTER);
-  background(0);
-  packageSprite.x= packageBody.position.x 
-  packageSprite.y= packageBody.position.y 
-
-  keyPressed();
-
-  drawSprites();
-
+  background("yellow");
+  paper.display();
+  dustbin1.display();
+  dustbin2.display();
+  dustbin3.display();
+  ground.display();
 
 }
 
-function keyPressed() {
- if (keyCode === DOWN_ARROW) {
- 
-    Matter.Body.setStatic(packageBody,false);
-  }
+
+function keyPressed(){
+if (keyCode === UP_ARROW){
+Matter.Body.applyForce(paper.body,paper.body.position,{x:264,y:-264})
+}
 }
